@@ -2,7 +2,21 @@
  TraceKit - Cross brower stack traces - github.com/occ/TraceKit
  MIT license
 */
+
+;(function(window, undefined) {
+
+
 var TraceKit = {};
+var _oldTraceKit = window.TraceKit;
+
+/**
+ * TraceKit.noConflict: Export TraceKit out to another variable
+ * Example: var TK = TraceKit.noConflict()
+ */
+TraceKit.noConflict = function noConflict() {
+    window.TraceKit = _oldTraceKit;
+    return TraceKit;
+};
 
 /**
  * TraceKit._has, a better form of hasOwnProperty
@@ -1031,7 +1045,7 @@ TraceKit.computeStackTrace = (function computeStackTraceWrapper() {
  * Extends support for global error handling for asynchronous browser
  * functions. Adopted from Closure Library's errorhandler.js
  */
-(function extendToAsynchronousCallbacks(w) {
+;(function extendToAsynchronousCallbacks(w) {
     var _helper = function _helper(fnName) {
         var originalFn = w[fnName];
         w[fnName] = function traceKitAsyncExtension() {
@@ -1187,3 +1201,10 @@ if (!TraceKit.linesOfContext || TraceKit.linesOfContext < 1) {
   // 5 lines before, the offending line, 5 lines after
   TraceKit.linesOfContext = 11;
 }
+
+
+
+// Export to global object
+window.TraceKit = TraceKit;
+
+}(window));
