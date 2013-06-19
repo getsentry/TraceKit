@@ -347,12 +347,7 @@ TraceKit.computeStackTrace = (function computeStackTraceWrapper() {
      */
     function getSource(url) {
         if (!_has(sourceCache, url)) {
-            // URL needs to be able to fetched within the acceptable domain.  Otherwise,
-            // cross-domain errors will be triggered.
-            var source = '';
-            if (url.indexOf(document.domain) !== -1) {
-                source = loadSource(url);
-            }
+            var source = loadSource(url);
             sourceCache[url] = source ? source.split('\n') : [];
         }
 
